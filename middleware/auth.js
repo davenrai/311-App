@@ -4,7 +4,9 @@ const jwt = require('jsonwebtoken')
 const auth = async (req, res, next) => {
     try {
         // remove token out of header, expect a jwt header
+        console.log(req.header("x-auth-token"))
         const token = req.header('x-auth-token')
+        console.log(token)
         if(!token) {
             // access denied response
             return res.status(401).json({msg: "No auth token. Authorization Denied."})
@@ -18,7 +20,7 @@ const auth = async (req, res, next) => {
         console.log(req.user)
         next()
     } catch(err) {
-
+        res.status(500).json({error: err.message})
     }
 }
 

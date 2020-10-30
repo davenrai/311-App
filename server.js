@@ -15,10 +15,6 @@ app.use(cors());
 
 const port = process.env.PORT || 5000
 
-app.get('/', (req, res) => {
-  res.send('311 Web App')
-})
-
 app.post('/register', async (req, res) => {
     console.log(req.body)
     try {
@@ -120,6 +116,17 @@ app.post('/validToken', async (req, res) => {
         console.log('Invalid token')
         res.json(false)
     }
+})
+
+app.get("/users", auth,  async (req, res) => {
+    // able to get user because of auth middleware 
+    const user = await User.findById(req.user);
+    res.json({
+        id: user._id,
+        firstName: user.firstName, 
+        lastName: user.lastName, 
+        email: user.email
+    })
 })
 
 app.listen(port, () => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useContext} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -9,7 +9,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Select, MenuItem, InputLabel } from '@material-ui/core'
+import { Select, MenuItem, InputLabel } from '@material-ui/core';
+import UserContext from './context/UserContext'
+import Axios from 'axios';
+import {useHistory} from 'react-router-dom'
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,6 +38,11 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
     
   const classes = useStyles();
+
+  const { setUserData } = useContext(UserContext);
+
+  const history = useHistory();
+
   const [form, setForm] = React.useState({
       firstName: "", 
       lastName: "", 
@@ -41,14 +50,29 @@ export default function SignUp() {
       password: "", 
       city: "Toronto"
   });
-
+  
   const handleChange = (e) => {
         setForm({...form, [e.target.name]: e.target.value})
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
       e.preventDefault();
-      console.log(form)
+      console.log(form.email)
+      const registerResponse = await Axios.post('http://localhost:5000/register', form);
+      console.log(registerResponse)
+
+      const loginRes = await Axios.post("http://localhost:5000/login", {
+        email: form.email,
+        password: form.password
+      })
+      setUserData({
+        token: loginRes.data.token, 
+        user: loginRes.data.user
+      })
+      // with the Login response, we know we get the token and user
+      localStorage.setItem('auth-token', loginRes.data.token)
+      history.push("/");
+
   }
   return (
     <Container component="main" maxWidth="xs">
@@ -60,7 +84,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField

@@ -3,6 +3,11 @@ html, body {
   padding: 0;
 }
 .App {
-  text-align: center;
   background-color: #fafafa;
+}
+
+.site-header {
+  display: flex; 
+  justify-content: space-between;
+  align-items: center;
 }

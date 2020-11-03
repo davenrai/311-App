@@ -9,7 +9,9 @@ import {
 import { Button } from '@material-ui/core';
 import Login from './components/Login'
 import Signup from './components/Signup'
+import Header from './components/Header'
 import UserContext from './components/context/UserContext'
+import Dashboard from './components/Dashboard';
 
 function App() {
     const [userData, setUserData] = useState({
@@ -62,20 +64,15 @@ function App() {
             <Route path="/login">
               <Login />
             </Route>
-            <Route path="/signup">
+            <Route path="/register">
               <Signup />
             </Route>
             <Route path="/">
-              <h1>311 Web App</h1>
-              <Login />
-              
-                <Button 
-                  color="secondary" 
-                  variant="contained" 
-                  href="/signup"
-                  >
-                    Signup
-                </Button>
+              <Header />
+              <div style={{textAlign:'center'}}>
+                <Dashboard></Dashboard>
+                <p>This is the 311 Home Page. Add - Photo, Explanation, animations</p>
+              </div>
             </Route>
           </Switch>
           </UserContext.Provider>

@@ -7,11 +7,12 @@ import {
   Route,
 } from "react-router-dom";
 import { Button } from '@material-ui/core';
+import UserContext from './components/context/UserContext'
 import Login from './components/Login'
 import Signup from './components/Signup'
 import Header from './components/Header'
-import UserContext from './components/context/UserContext'
 import Dashboard from './components/Dashboard';
+import Home from './components/Home'
 
 function App() {
     const [userData, setUserData] = useState({
@@ -70,8 +71,8 @@ function App() {
             <Route path="/">
               <Header />
               <div style={{textAlign:'center'}}>
-                <Dashboard></Dashboard>
-                <p>This is the 311 Home Page. Add - Photo, Explanation, animations</p>
+                
+                {userData.token ? <Dashboard /> : <Home />}
               </div>
             </Route>
           </Switch>

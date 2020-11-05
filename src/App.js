@@ -4,9 +4,9 @@ import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
+  Route
 } from "react-router-dom";
-import { Button } from '@material-ui/core';
+import { PrivateRoute } from './helpers/PrivateRoute'
 import UserContext from './components/context/UserContext'
 import Login from './components/Login'
 import Signup from './components/Signup'
@@ -70,11 +70,12 @@ function App() {
             </Route>
             <Route path="/">
               <Header />
-              <div style={{textAlign:'center'}}>
+              <div style={{margin:'auto'}}>
                 
                 {userData.token ? <Dashboard /> : <Home />}
               </div>
             </Route>
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
           </Switch>
           </UserContext.Provider>
         </Router>

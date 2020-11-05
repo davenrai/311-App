@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
-
+import { GoogleMap, LoadScript } from '@react-google-maps/api'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +31,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
+const containerStyle = {
+  width: '650px',
+  height: '600px', 
+  margin: 'auto'
+};
+ 
+const center = {
+  lat: 43.6629,
+  lng: -79.3957
+};
+ 
+
+function Dashboard() {
+    const [map, setMap] = useState(null);
+
     const classes = useStyles();
     const tileData = [
         {
@@ -42,8 +56,8 @@ export default function Dashboard() {
         }
     ]
     return (
-        <div className={classes.root}>
-      <GridList cellHeight={200} spacing={1} className={classes.gridList}>
+        <div>
+      {/* <GridList cellHeight={200} spacing={1} className={classes.gridList}>
         {tileData.map((tile) => (
           <GridListTile key={tile.img} cols={tile.featured ? 2 : 1} rows={tile.featured ? 2 : 1}>
             <img src={tile.img} alt={tile.title} />
@@ -60,7 +74,22 @@ export default function Dashboard() {
             />
           </GridListTile>
         ))}
-      </GridList>
+      </GridList> */}
+      <LoadScript
+      googleMapsApiKey="AIzaSyCAItcUYA_Ob4GRRWMSh-vsDZs1FooWBv0"
+      >
+
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={12}
+      >
+        { /* Child components, such as markers, info windows, etc. */ }
+        <></>
+      </GoogleMap>
+    </LoadScript>
     </div>
     )
 }
+
+export default React.memo(Dashboard)

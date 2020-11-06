@@ -4,7 +4,8 @@ import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route, 
+  Link
 } from "react-router-dom";
 import { PrivateRoute } from './helpers/PrivateRoute'
 import UserContext from './components/context/UserContext'
@@ -68,14 +69,17 @@ function App() {
             <Route path="/register">
               <Signup />
             </Route>
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <Route path="/">
               <Header />
-              <div style={{margin:'auto'}}>
-                
-                {userData.token ? <Dashboard /> : <Home />}
+              <div style={{margin:'auto', textAlign:'center'}}>
+                {
+                  userData.token ? <Link to="/dashboard"><button>Continue to Dashboard</button> </Link> : <></>
+                }
               </div>
+              {/*Insert Footer Here, or About hyperlink to describe app, github*/}
             </Route>
-            <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            
           </Switch>
           </UserContext.Provider>
         </Router>
